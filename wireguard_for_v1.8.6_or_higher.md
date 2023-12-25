@@ -21,6 +21,7 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 - 复制输出的 `reserved` 值，粘贴到下面配置中 `reserved` 后的 `[]` 中
 
 ### "outbounds"
+
 ```jsonc
         {
             "protocol": "wireguard",
@@ -51,6 +52,7 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 编辑 **/usr/local/etc/xray/config.json**，按需增加 **"routing"**，**"inbounds"**，**"outbounds"** 的内容（注意检查json格式），输入 `systemctl restart xray` 重启Xray，访问[chat.openai.com/cdn-cgi/trace](https://chat.openai.com/cdn-cgi/trace)查看是否为Cloudflare的IP。
 
 ### "routing"
+
 ```jsonc
             {
                 "type": "field",
@@ -62,6 +64,7 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 ```
 
 ### "inbounds"
+
 ```jsonc
             "sniffing": {
                 "enabled": true,
@@ -74,10 +77,11 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 ```
 
 ### "dns"
+
 ```jsonc
     "dns": {
         "servers": [
-            "https+local://1.1.1.1/dns-query"
+            "https://1.1.1.1/dns-query"
         ],
         "queryStrategy": "UseIP" // 若不写此参数，默认值 UseIP，即同时查询 A 和 AAAA 记录，可选值 UseIPv4 和 UseIPv6，其它记录类型由系统 DNS 查询
     }
@@ -92,7 +96,7 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
     },
     "dns": {
         "servers": [
-            "https+local://1.1.1.1/dns-query"
+            "https://1.1.1.1/dns-query"
         ],
         "queryStrategy": "UseIP"
     },
@@ -132,7 +136,7 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
         {
             "protocol": "freedom",
             "settings": {
-                "domainStrategy": "ForceIPv6v4"
+                "domainStrategy": "UseIP"
             },
             "tag": "direct"
         },
@@ -181,3 +185,5 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 
 **2：** 提示`你已经有 IPv6 地址了，但你的浏览器不太愿意用，这一点比较令人担心。`<br>
 **3：** 有机率提示`你已经有 IPv6 地址了，但你的浏览器不太愿意用，这一点比较令人担心。`
+
+### [另一种方式](/VLESS-Vision-TLS/config_server_without_fallback.json)

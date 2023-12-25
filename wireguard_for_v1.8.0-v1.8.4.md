@@ -21,6 +21,7 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 - 复制输出的 `reserved` 值，粘贴到下面配置中 `reserved` 后的 `[]` 中
 
 ### "outbounds"
+
 ```jsonc
         {
             "protocol": "freedom",
@@ -70,6 +71,7 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 编辑 **/usr/local/etc/xray/config.json**，按需增加 **"routing"**，**"inbounds"**，**"outbounds"** 的内容（注意检查json格式），输入 `systemctl restart xray` 重启Xray，访问[chat.openai.com/cdn-cgi/trace](https://chat.openai.com/cdn-cgi/trace)查看是否为Cloudflare的IP。
 
 ### "routing"
+
 ```jsonc
             {
                 "type": "field",
@@ -81,6 +83,7 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 ```
 
 ### "inbounds"
+
 ```jsonc
             "sniffing": {
                 "enabled": true,
@@ -93,10 +96,11 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 ```
 
 ### "dns"
+
 ```jsonc
     "dns": {
         "servers": [
-            "https+local://1.1.1.1/dns-query"
+            "https://1.1.1.1/dns-query"
         ],
         "queryStrategy": "UseIP" // 若不写此参数，默认值 UseIP，即同时查询 A 和 AAAA 记录，可选值 UseIPv4 和 UseIPv6，其它记录类型由系统 DNS 查询
     }
@@ -111,7 +115,7 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
     },
     "dns": {
         "servers": [
-            "https+local://1.1.1.1/dns-query"
+            "https://1.1.1.1/dns-query"
         ],
         "queryStrategy": "UseIP"
     },
@@ -150,6 +154,9 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
     "outbounds": [
         {
             "protocol": "freedom",
+            "settings": {
+                "domainStrategy": "UseIP"
+            },
             "tag": "direct"
         },
         {
