@@ -18,11 +18,10 @@
                 "domains": [
                     "geosite:geolocation-!cn"
                 ],
-                "skipFallback": true,
-                "queryStrategy": "UseIPv4"
+                "skipFallback": true
             }
         ],
-        "queryStrategy": "UseIP"
+        "queryStrategy": "UseIPv4"
     },
     "routing": {
         "domainStrategy": "AsIs",
@@ -159,9 +158,6 @@
         },
         {
             "protocol": "freedom",
-            "settings": {
-                "domainStrategy": "ForceIPv6v4"
-            },
             "tag": "direct"
         },
         {
@@ -170,12 +166,6 @@
         },
         {
             "protocol": "dns",
-            "settings": {
-                "nonIPQuery": "drop"
-            },
-            "proxySettings": {
-                "tag": "direct"
-            },
             "tag": "dns-out"
         }
     ]
