@@ -35,20 +35,26 @@
                         "users": [
                             {
                                 "id": "chika", // 与服务端一致
-                                "encryption": "none",
-                                "flow": "xtls-rprx-vision"
+                                "encryption": "none"
                             }
                         ]
                     }
                 ]
             },
             "streamSettings": {
-                "network": "tcp",
+                "network": "httpupgrade",
+                "httpupgradeSettings": {
+                    "path": "/lovelive", // 与服务端一致
+                    "host": "chika.example.com;" // 由于在 Nginx 配置中启用了 ssl_reject_handshake，此处必须填 Nginx 配置中 server_name 的值
+                },
                 "security": "tls",
                 "tlsSettings": {
                     "serverName": "",
                     "fingerprint": "chrome"
                 }
+            },
+            "mux": {
+                "enabled": true // 建议启用 Mux
             },
             "tag": "proxy"
         },
