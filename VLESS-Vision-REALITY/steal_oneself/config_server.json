@@ -2,6 +2,25 @@
     "log": {
         "loglevel": "warning"
     },
+    "routing": {
+        "domainStrategy": "IPIfNonMatch",
+        "rules": [
+            {
+                "type": "field",
+                "port": "443",
+                "network": "udp",
+                "outboundTag": "block"
+            },
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:cn",
+                    "geoip:private"
+                ],
+                "outboundTag": "block"
+            }
+        ]
+    },
     "inbounds": [
         {
             "listen": "0.0.0.0",
@@ -10,30 +29,45 @@
             "settings": {
                 "clients": [
                     {
-                        "id": "chika",
+                        "id": "chika", // run `xray uuid` to generate
                         "flow": "xtls-rprx-vision"
                     }
                 ],
                 "decryption": "none"
             },
             "streamSettings": {
-                "network": "tcp",
+                "network": "raw",
                 "security": "reality",
                 "realitySettings": {
+                    "show": false,// 选填，若为 true，输出调试信息
                     "dest": "8001",
+<<<<<<< HEAD
                     "xver": 1, // 发送 PROXY protocol
                     "serverNames": [ // 客户端可用的 serverName 列表，暂不支持 * 通配符
                         "www.lovelive-anime.jp" // 与 Nginx 配置中的 server_name 一致
                     ],
                     "privateKey": "2KZ4uouMKgI8nR-LDJNP1_MHisCJOmKGj9jUjZLncVU", // 执行 xray x25519 生成，填 "Private key" 的值
+=======
+                    "xver": 1,// 发送 PROXY protocol
+
+                    "serverNames": [// 客户端可用的 serverName 列表，暂不支持 * 通配符
+                        "bwg.aranya.eu.org"  // 与 Nginx 配置中的 server_name一致
+                    ],
+                    "privateKey": "2KZ4uouMKgI8nR-LDJNP1_MHisCJOmKGj9jUjZLncVU",  // run `xray x25519` to generate
+>>>>>>> 438fc3ce7b6c0c8e115147589c7bc4cff7eceb2d
                     "shortIds": [ // 客户端可用的 shortId 列表，可用于区分不同的客户端
                         "", // 若有此项，客户端 shortId 可为空
                         "a1", // 0 到 f，长度为 2 的倍数，长度上限为 16，或执行 openssl rand -hex 8 生成
                         "b2",
                         "c3",                   
                         "6ba85179e30d4fc2" // 0 到 f，长度为 2 的倍数，长度上限为 16，可留空，或执行 openssl rand -hex 8 生成
+<<<<<<< HEAD
 
                     ]
+=======
+                    ]，
+                    "mldsa65Seed": "" // 选填，执行 ./xray mldsa65 生成，对证书进行抗量子的额外签名
+>>>>>>> 438fc3ce7b6c0c8e115147589c7bc4cff7eceb2d
                 }
             },
             "sniffing": {
@@ -55,5 +89,13 @@
             "protocol": "blackhole",
             "tag": "block"
         }
-    ]
+    ],
+    "policy": {
+        "levels": {
+            "0": {
+                "handshake": 2,
+                "connIdle": 120
+            }
+        }
+    }
 }
